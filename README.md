@@ -18,37 +18,7 @@
 
 ## Architecture
 
-```
-    +-----------------+     state change      +----------------------------+
-    |  Amazon EC2     |  ──────────────────►  |  EventBridge default bus   |
-    |  instance       |   (event published)   |  rule: ec2-state-change-   |
-    +-----------------+                       |  rule (running / stopped)  |
-    +----------------------------+
-    │ matching event
-    ▼
-    +--------------------+   assumes     +--------------------------------+
-    |  IAM role          | ◄──────────── |  AWS Lambda                    |
-    |  lambda-ec2-       |               |  ec2-state-change-notifier     |
-    |  monitor-role      |               |  (Python + Boto3)              |
-    +--------------------+               +--------------------------------+
-    │                    │
-    describe_instances│                    │ publish
-    ▼                    ▼
-    +----------------+   +----------------+
-    |  Amazon EC2    |   |  Amazon SNS    |
-    |  (name, type)  |   |  topic         |
-    +----------------+   +----------------+
-    │
-    ▼
-    +----------------+
-    |  Email         |
-    |  notification  |
-    +----------------+
-```
-
-📸 ****ATTACH** **SCREENSHOT** (optional):** the dark-theme architecture diagram, saved as `screenshots/architecture.png`
-
-![Architecture diagram](screenshots/architecture.png)
+![Architecture diagram](Screenshots/SAA4-0.png)
 
 ---
 
@@ -78,9 +48,7 @@ The alternative would be a Lambda that polls `describe_instances` every few minu
 
 ### 1.1 Select the region
 
-📸 ****ATTACH** **SCREENSHOT** 1:** Console home page with the **region visible** in the top-right corner
-
-![Console home with region](screenshots/01-console-region.png)
+![Console home with region](Screenshots/SAA4-1.png)
 
 ### 1.2 Create the topic
 
@@ -90,13 +58,11 @@ The alternative would be a Lambda that polls `describe_instances` every few minu
 3. **Name:** `ec2-state-change-topic`
 ## Leave the other settings at their defaults and click **Create topic**.
 
-📸 ****ATTACH** **SCREENSHOT** 2:** The **Create topic** form with type and name filled in
+![Create topic form](Screenshots/SAA4-2.png)
 
-![Create topic form](screenshots/02-create-topic-form.png)
+![Create topic form](Screenshots/SAA4-3.png)
 
-📸 ****ATTACH** **SCREENSHOT** 3:** The topic detail page showing the **ARN**
-
-![Topic detail page with **ARN**](screenshots/03-topic-arn.png)
+![Topic detail page with **ARN**](Screenshots/SAA4-4.png)
 
 Copy the topic **ARN** (`arn:aws:sns:<region>:<account-id>:ec2-state-change-topic`). It is needed in Step 3.
 
@@ -108,31 +74,21 @@ Copy the topic **ARN** (`arn:aws:sns:<region>:<account-id>:ec2-state-change-topi
 3. **Endpoint:** `<**YOUR**-**EMAIL**>`
 ## Click **Create subscription**.
 
-📸 ****ATTACH** **SCREENSHOT** 4:** The **Create subscription** form with protocol and email filled in
-
-![Create subscription form](screenshots/04-create-subscription.png)
-
-📸 ****ATTACH** **SCREENSHOT** 5:** The subscription list showing **Pending confirmation**
-
-![Subscription pending confirmation](screenshots/05-subscription-pending.png)
+![Create subscription form](Screenshots/SAA4-5.png)
 
 ### 1.4 Confirm the subscription
 
 **SNS** sends a confirmation email. Open it (check spam if it is missing) and click **Confirm subscription**.
 
-📸 ****ATTACH** **SCREENSHOT** 6:** The confirmation email in the inbox
+![Confirmation email](Screenshots/SAA4-6.png)
 
-![Confirmation email](screenshots/06-confirmation-email.png)
+![Confirmation email](Screenshots/SAA4-7.png)
 
-📸 ****ATTACH** **SCREENSHOT** 7:** The browser page showing **Subscription confirmed!**
-
-![Subscription confirmed page](screenshots/07-subscription-confirmed-page.png)
+![Subscription confirmed page](Screenshots/SAA4-8.png)
 
 Refresh the **SNS** console and verify the subscription status is **Confirmed**.
 
-📸 ****ATTACH** **SCREENSHOT** 8:** The subscription list showing **Confirmed**
-
-![Subscription confirmed](screenshots/08-subscription-confirmed.png)
+![Subscription confirmed](Screenshots/SAA4-9.png)
 
 ---
 
