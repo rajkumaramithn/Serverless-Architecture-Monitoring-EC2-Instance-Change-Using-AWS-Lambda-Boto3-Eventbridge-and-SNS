@@ -90,6 +90,7 @@ Refresh the **SNS** console and verify the subscription status is **Confirmed**.
 
 ![Subscription confirmed](Screenshots/SAA4-9.png)
 
+![Subscription confirmed 2](Screenshots/SAA4-10.png)
 ---
 
 ## Step 2: IAM Role for Lambda
