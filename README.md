@@ -1,27 +1,5 @@
 # Monitor EC2 Instance State Changes Using AWS Lambda, Boto3, EventBridge and SNS
 
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Architecture](#architecture)
-3. [Why EventBridge Is Used](#why-eventbridge-is-used)
-4. [Prerequisites](#prerequisites)
-5. [Step 1: **SNS** Setup](#step-1-sns-setup)
-6. [Step 2: **IAM** Role for Lambda](#step-2-iam-role-for-lambda)
-7. [Step 3: Create the Lambda Function](#step-3-create-the-lambda-function)
-8. [Step 4: Manual Test of the Function (Optional)](#step-4-manual-test-of-the-function-optional)
-9. [Step 5: EventBridge Rule](#step-5-eventbridge-rule)
-10. [Step 6: Create an **EC2** Instance](#step-6-create-an-ec2-instance)
-11. [Step 7: End-to-End Testing](#step-7-end-to-end-testing)
-12. [Security Considerations](#security-considerations)
-13. [Troubleshooting](#troubleshooting)
-14. [Cleanup](#cleanup)
-15. [Conclusion](#conclusion)
-
-> **How to use the screenshot markers:** every `📸 **ATTACH** **SCREENSHOT**` line below tells you exactly what to capture. Save each image in the `screenshots/` folder using the file name shown. The image link beneath each marker will then display it on GitHub.
-
----
-
 ## Overview
 
 **Objective:** Automatically monitor changes in **EC2** instance states and send an email notification whenever an instance is started or stopped.
