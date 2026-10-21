@@ -91,25 +91,32 @@ Refresh the **SNS** console and verify the subscription status is **Confirmed**.
 ![Subscription confirmed](Screenshots/SAA4-9.png)
 
 ![Subscription confirmed 2](Screenshots/SAA4-10.png)
+
 ---
 
 ## Step 2: IAM Role for Lambda
 
 ## Open **IAM** → **Roles** → **Create role**.
 
-2. **Trusted entity type:** **AWS** service. **Use case:** Lambda. Click **Next**.
+![IAM Role](Screenshots/SAA4-11.png)
+
+1. **Trusted entity type:** **AWS** service. **Use case:** Lambda. Click **Next**.
+   
+![IAM Role Creation 1](Screenshots/SAA4-12.png)
+
 ## Select both policies:
     - `AmazonEC2ReadOnlyAccess` (read instance details)
     - `AmazonSNSFullAccess` (publish notifications)
-## Click **Next**, name the role `lambda-ec2-monitor-role`, and click **Create role**.
+    
+![IAM Role Creation 2](Screenshots/SAA4-13.png)
+![IAM Role Creation 3](Screenshots/SAA4-14.png)
+![IAM Role Creation 4](Screenshots/SAA4-15.png)
 
-📸 ****ATTACH** **SCREENSHOT** 9:** The **Add permissions** page with both policies ticked
+## Click **Next**, name the role `lambda-ec2-monitor-role`, and click **Create role**.
 
 ![Attaching policies](screenshots/09-iam-attach-policies.png)
 
-📸 ****ATTACH** **SCREENSHOT** 10:** The role **summary page** showing both policies attached
-
-![Role summary](screenshots/10-iam-role-summary.png)
+![Role summary](Screenshots/SAA4-15.png)
 
 > **Note:** these managed policies are used for simplicity. See [Security Considerations](#security-considerations) for a least-privilege alternative.
 
@@ -121,18 +128,17 @@ Refresh the **SNS** console and verify the subscription status is **Confirmed**.
 
 ## Open **Lambda** → **Create function** → **Author from scratch**.
 
-2. **Function name:** `ec2-state-change-notifier`
-3. **Runtime:** Python 3.12
-4. **Execution role:** Use an existing role → `lambda-ec2-monitor-role`
+![AWS Lambda](Screenshots/SAA4-16.png)
+
+1. **Function name:** `ec2-state-change-notifier`
+2. **Runtime:** Python 3.12
+3. **Execution role:** Use an existing role → `lambda-ec2-monitor-role`
+
 ## Click **Create function**.
 
-📸 ****ATTACH** **SCREENSHOT** 11:** The **Create function** form with the runtime and existing role visible
+![Create function form](Screenshots/SAA4-17.png)
 
-![Create function form](screenshots/11-lambda-create-form.png)
-
-📸 ****ATTACH** **SCREENSHOT** 12:** The function **overview page** after creation
-
-![Function overview](screenshots/12-lambda-overview.png)
+![Function overview](Screenshots/SAA4-18.png)
 
 ### 3.2 Add the code
 
@@ -190,9 +196,7 @@ def lambda_handler(event, context):
     return {*instance_id*: instance_id, *state*: state, *message_id*: response[*MessageId"]}
 ```
 
-📸 ****ATTACH** **SCREENSHOT** 13:** The code editor showing the **full script** and the ***Successfully updated the function*** banner
-
-![Code deployed](screenshots/13-lambda-code-deployed.png)
+![Code deployed](Screenshots/SAA4-19.png)
 
 ### 3.3 Code explanation
 
@@ -212,13 +216,14 @@ def lambda_handler(event, context):
 
 Under **Configuration** → **Environment variables**, add:
 
+![Code Configuration](Screenshots/SAA4-20.png)
+
 | Key | Value |
 |-----|-------|
 | `SNS_TOPIC_ARN` | `<YOUR-TOPIC-ARN>` |
 
-📸 ****ATTACH** **SCREENSHOT** 14:** The **Environment variables** page showing the saved value
 
-![Environment variables](screenshots/14-lambda-env-vars.png)
+![Environment variables](Screenshots/SAA4-21.png)
 
 ### 3.5 Increase the timeout
 
@@ -226,7 +231,9 @@ Under **Configuration** → **General configuration**, set **Timeout** to **30 s
 
 📸 ****ATTACH** **SCREENSHOT** 15:** The **General configuration** panel showing the new timeout
 
-![Timeout configuration](screenshots/15-lambda-timeout.png)
+![Timeout configuration](Screenshots/SAA4-22.png)
+![Timeout configuration](Screenshots/SAA4-23.png)
+![Timeout configuration](Screenshots/SAA4-24.png)
 
 ---
 
