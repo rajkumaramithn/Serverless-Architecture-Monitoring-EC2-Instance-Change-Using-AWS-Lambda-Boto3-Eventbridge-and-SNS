@@ -229,7 +229,6 @@ Under **Configuration** → **Environment variables**, add:
 
 Under **Configuration** → **General configuration**, set **Timeout** to **30 seconds**.
 
-📸 ****ATTACH** **SCREENSHOT** 15:** The **General configuration** panel showing the new timeout
 
 ![Timeout configuration](Screenshots/SAA4-22.png)
 ![Timeout configuration](Screenshots/SAA4-23.png)
@@ -262,17 +261,13 @@ On the **Test** tab, create an event named `sample-stopped-event`:
 
 Click **Test**. The instance ID is fictional, so the lookup for its name and type fails harmlessly and the email shows `N/A` for those fields.
 
-📸 ****ATTACH** **SCREENSHOT** 16:** The **test event configuration**
+![Test event configuration](Screenshots/SAA4-25.png)
 
-![Test event configuration](screenshots/16-test-event.png)
+![Test event configuration](Screenshots/SAA4-26.png)
 
-📸 ****ATTACH** **SCREENSHOT** 17:** The **execution result** showing **Succeeded**
+![Test execution result](Screenshots/SAA4-27.png)
 
-![Test execution result](screenshots/17-test-result.png)
-
-📸 ****ATTACH** **SCREENSHOT** 18:** The **email** received from the manual test
-
-![Manual test email](screenshots/18-test-email.png)
+![Manual test email](Screenshots/SAA4-28.png)
 
 ---
 
@@ -288,7 +283,7 @@ In the current **AWS** console, Amazon EventBridge has been reorganised: the lan
 
 📸 ****ATTACH** **SCREENSHOT** 19:** The **Event buses** page showing the **default** bus
 
-![Event buses page](screenshots/19-event-buses.png)
+![Event buses page](Screenshots/SAA4-29.png)
 
 ### 5.2 Define the rule
 
@@ -300,9 +295,9 @@ In the current **AWS** console, Amazon EventBridge has been reorganised: the lan
 
 Click **Next**.
 
-📸 ****ATTACH** **SCREENSHOT** 20:** The **rule details** form filled in
+![Rule details](Screenshots/SAA4-30.png)
 
-![Rule details](screenshots/20-rule-details.png)
+![Rule details](Screenshots/SAA4-31.png)
 
 ### 5.3 Build the event pattern
 
@@ -326,9 +321,7 @@ Set the **Event source** to ****AWS** events or EventBridge partner events**, ch
 
 Click **Next**.
 
-📸 ****ATTACH** **SCREENSHOT** 21:** The **event pattern** **JSON**
-
-![Event pattern](screenshots/21-event-pattern.png)
+![Event pattern](Screenshots/SAA4-32.png)
 
 ### 5.4 Select the Lambda target
 
@@ -342,13 +335,12 @@ Click **Next**.
 
 Click **Next**, skip the optional tags (**Next**), review the settings, and click **Create rule**.
 
-📸 ****ATTACH** **SCREENSHOT** 22:** The **target configuration** with the Lambda function selected
+![Target configuration](Screenshots/SAA4-33.png)
 
-![Target configuration](screenshots/22-target-configuration.png)
+![Rule detail page](Screenshots/SAA4-34.png)
 
-📸 ****ATTACH** **SCREENSHOT** 23:** The **rule detail page** showing the status **Enabled**, the event pattern and the Lambda target
+![Rule detail page](Screenshots/SAA4-35.png)
 
-![Rule detail page](screenshots/23-rule-enabled.png)
 
 ### 5.5 Add the trigger on the Lambda side
 
@@ -360,13 +352,7 @@ Because the rule invokes the function through an execution role, the Lambda cons
 3. **Rule:** Existing rules → `ec2-state-change-rule`
 ## Click **Add**.
 
-📸 ****ATTACH** **SCREENSHOT** 24:** The **Add trigger** form filled in
-
-![Add trigger form](screenshots/24-add-trigger-form.png)
-
-📸 ****ATTACH** **SCREENSHOT** 25:** The function **overview** showing EventBridge connected as a trigger
-
-![Function overview with trigger](screenshots/25-function-with-trigger.png)
+![Add trigger form](Screenshots/SAA4-36.png)
 
 ---
 
@@ -382,19 +368,13 @@ The instance must be in the same region as the rule.
 5. **Key pair:** Proceed without a key pair (the instance is never logged in to)
 ## Leave the network and storage settings at their defaults and click **Launch instance**.
 
-📸 ****ATTACH** **SCREENSHOT** 26:** The **launch form** showing the name, **AMI** and instance type
-
-![Launch instance form](screenshots/26-launch-instance.png)
+![Launch instance form](Screenshots/SAA4-37.png)
 
 Because the rule is already active, launching the instance produces a `running` event and an email.
 
-📸 ****ATTACH** **SCREENSHOT** 27:** The **Instances** list showing the instance in the **Running** state
+![Instance running](Screenshots/SAA4-38.png)
 
-![Instance running](screenshots/27-instance-running.png)
-
-📸 ****ATTACH** **SCREENSHOT** 28:** The ***is now running* email** received after launch
-
-![Running email after launch](screenshots/28-running-email-launch.png)
+![Instance running email](Screenshots/SAA4-39.png)
 
 ---
 
@@ -404,25 +384,15 @@ Because the rule is already active, launching the instance produces a `running` 
 
 Select the instance → **Instance state** → **Stop instance** → **Stop**. Wait for the state to become **Stopped**.
 
-📸 ****ATTACH** **SCREENSHOT** 29:** The **Instances** list showing the instance **Stopped**
+![Instance stopped](Screenshots/SAA4-40.png)
 
-![Instance stopped](screenshots/29-instance-stopped.png)
-
-📸 ****ATTACH** **SCREENSHOT** 30:** The ***is now stopped* email**, with the full body visible
-
-![Stopped email](screenshots/30-stopped-email.png)
+![Stopped email](Screenshots/SAA4-41.png)
 
 ### 7.2 Start the instance
 
 Select the instance → **Instance state** → **Start instance**. Wait for **Running**.
 
-📸 ****ATTACH** **SCREENSHOT** 31:** The **Instances** list showing the instance **Running** again
-
-![Instance running again](screenshots/31-instance-running-again.png)
-
-📸 ****ATTACH** **SCREENSHOT** 32:** The second ***is now running* email**
-
-![Running email after restart](screenshots/32-running-email-restart.png)
+This will trigger the email a shown before once more.
 
 ### 7.3 Sample notification
 
@@ -489,22 +459,6 @@ Other recommendations:
 | `KeyError: 'SNS_TOPIC_ARN'` | Environment variable missing or misspelled | Add it under **Configuration** → **Environment variables** |
 | Name and type show as `N/A` in a real email | Role is missing EC2 read access, or the instance has no `Name` tag | Attach `AmazonEC2ReadOnlyAccess` and tag the instance |
 | No email when the instance is terminated | Expected | The rule matches only `running` and `stopped` |
-
----
-
-## Cleanup
-
-Remove resources in this order to avoid charges:
-
-1. **Terminate the **EC2** instance.**
-2. **Delete the EventBridge rule** `ec2-state-change-rule`.
-3. **Delete the Lambda function** `ec2-state-change-notifier`.
-4. **Delete the **SNS** subscription and topic.**
-5. **Delete the **IAM** roles** `lambda-ec2-monitor-role` and the auto-created `Amazon_EventBridge_Invoke_Lambda_...` role.
-
-📸 ****ATTACH** **SCREENSHOT** 33 (optional):** Confirmation of deletion or the empty lists
-
-![Cleanup confirmation](screenshots/33-cleanup.png)
 
 ---
 
