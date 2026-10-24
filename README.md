@@ -475,17 +475,3 @@ This project built an event-driven monitoring pipeline for **EC2**. **EC2** publ
 - Replace the managed policies with the least-privilege policy above.
 
 ---
-
-## Repository Structure
-
-```
-.
-├── **README**.md
-├── lambda_function.py
-└── screenshots/
-    ├── architecture.png
-    ├── 01-console-region.png
-    ├── 02-create-topic-form.png
-    ├── ...
-    └── 33-cleanup.png
-```
